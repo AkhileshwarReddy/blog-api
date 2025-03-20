@@ -52,3 +52,5 @@ group :development do
   gem 'database_cleaner-active_record'
 end
 
+
+gem "jwt", "~> 2.10"

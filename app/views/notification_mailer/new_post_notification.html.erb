@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Post from <%= @user.username %>!</h1>
+    <p>
+      <%= @user.username %> has just published a new post titled "<%= @post.title %>".
+    </p>
+    <p>
+      <%= @post.body %>
+    </p>
+    <p>
+      <%= link_to 'Read more', post_url(@post) %>
+    </p>
+  </body>
+</html>

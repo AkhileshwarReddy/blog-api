@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   post 'register', to: 'auth#register'
   post 'login', to: 'auth#login'
+  get 'confirm', to: 'auth#confirm'
 
   resources :users, only: [:show, :update, :destroy]
   resources :posts do

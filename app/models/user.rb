@@ -1,6 +1,8 @@
 class User < ApplicationRecord
     has_secure_password
 
+    before_create :generate_confirmation_token
+
     has_many :posts
 
     has_many :follows, foreign_key: :follower_id, dependent: :destroy
@@ -11,4 +13,14 @@ class User < ApplicationRecord
     validates :username, presence: true, uniqueness: true
     validates :email, presence: true, uniqueness: true
     validates :password, presence: true, length: { minimum: 6 }, if: :password
+
+    def confirm!
+        update_columns(confirmed_at: Time.current, confirmation_token: nil)
+    end
+
+    private
+
+    def generate_confirmation_token
+        self.confirmation_token = SecureRandom.urlsafe_base64.to_s
+    end
 end

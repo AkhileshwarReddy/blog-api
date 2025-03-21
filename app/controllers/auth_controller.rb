@@ -1,10 +1,11 @@
 class AuthController < ApplicationController
-    skip_before_action :authorized, only: [:login, :register]
+    skip_before_action :authorized, only: [:login, :register, :confirm]
     
     def register
         user = User.new(user_params)
 
         if user.save
+            UserMailer.confirmation_email(user).deliver
             token = encode_token({user_id: user.id})
             render json: {user: user, token: token}, status: :created
         else
@@ -20,6 +21,16 @@ class AuthController < ApplicationController
             render json: {user: user, token: token}
         else
             render json: {error: "Invalid email or password"}, status: :unauthorized
+        end
+    end
+
+    def confirm
+        user = User.find_by(confirmation_token: params[:token])
+        if user
+            user.confirm!
+            render json: { message: 'Your account has been confirmed.' }, status: :ok
+        else
+            render json: { errors: ['Invalid confirmation token'] }, status: :unprocessable_entity
         end
     end
 

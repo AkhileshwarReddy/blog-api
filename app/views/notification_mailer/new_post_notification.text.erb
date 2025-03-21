@@ -1,0 +1,7 @@
+New Post from <%= @post.user.username %>!
+
+<%= @post.user.username %> has just published a new post titled "<%= @post.title %>".
+
+<%= @post.body %>
+
+Read more: <%= post_url(@post) %>

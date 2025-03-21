@@ -17,6 +17,7 @@ class PostsController < ApplicationController
 
         if post.save
             update_tags(post)
+            notify_followers(post)
             render json: post, include: :tags, status: :created
         else
             render json: { errors: post.errors.full_messages }, status: :unprocessable_entity
@@ -56,5 +57,11 @@ class PostsController < ApplicationController
 
     def correct_user
         render json: { message: 'Not authorized' }, status: :unauthorized unless @post.user == current_user
+    end
+
+    def notify_followers(post)
+        current_user.followers.each do |follower|
+            NotificationMailer.new_post_notification(follower, post).deliver_now
+        end
     end
 end

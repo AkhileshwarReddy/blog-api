@@ -17,4 +17,9 @@ Rails.application.routes.draw do
       resources :comments, only: [:index, :create, :destroy], as: 'replies'
     end
   end
+
+  post 'follow/:user_id', to: 'follows#create'
+  delete 'unfollow/:user_id', to: 'follows#destroy'
+  get 'followers', to: 'follows#followers'
+  get 'following', to: 'follows#following'
 end

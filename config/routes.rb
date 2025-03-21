@@ -12,5 +12,9 @@ Rails.application.routes.draw do
   post 'login', to: 'auth#login'
 
   resources :users, only: [:show, :update, :destroy]
-  resources :posts
+  resources :posts do
+    resource :comments, only: [:index, :create, :destroy] do
+      resource :comments, only: [:index, :create, :destroy], as: :replies
+    end
+  end
 end

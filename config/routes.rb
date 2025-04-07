@@ -7,4 +7,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  post "books/create", to: "books#create"
+  get "user/:user_id/borrow/:book_id", to: "books#borrow"
 end
